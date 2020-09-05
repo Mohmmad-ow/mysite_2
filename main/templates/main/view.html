@@ -1,0 +1,97 @@
+{% extends 'main/base.html' %} {% block content %}
+<hr class="mt-0  ">
+{% if user.id == to_do_list.user.id %}
+<h3 style="text-align:center;">List Name: {{to_do_list.name}}</h3>
+<form method="post" action="#">
+  {% csrf_token %}
+  <ul style="list-style: none;">
+    <div style="width: 100%;" class="row justify-content-center">
+    {% for item in items%}
+    
+        <div style="padding-top: 1rem;" class="col-sm-12 col-md-3">
+        <div class="card">
+            <div style="text-align:center;" class="card-body">
+                <li>
+                    Item: {{item.text}} <br />
+                    <small> Stats: {% if item.completion == True%}
+                        <input type="checkbox" value="clicked" name="c{{item.id}}" checked />
+                        {% else %}
+                        <input type="checkbox" value="clicked" name="c{{item.id}}" />
+                        {% endif %}
+                        </small><br>
+                        <button class="btn btn-danger btn-sm" name="d{{item.id}}" value="delete_item">Delete Item</button>
+            </div>
+        </div>
+
+
+        </li>
+        </div>
+    
+    {% endfor %}
+    </div>
+  </ul>
+  <div style="text-align: center;">
+  <button
+    style="margin: 1rem; width: 14%;"
+    class="btn btn-primary "
+    type="submit"
+    value="save"
+    name="save"
+  >
+    Save
+  </button>
+  <hr />
+  <label for="new">New Item Text:</label>
+  <input type="text" id="new" name="new" />
+  <button
+    style="margin: 1rem"
+    class="btn btn-primary"
+    type="submit"
+    value="NewItem"
+    name="NewItem"
+  >
+    Add Item
+  </button>
+  <hr />
+  <button
+    style="margin: 1rem"
+    class="btn btn-primary"
+    type="submit"
+    value="SaveAll"
+    name="SaveAll"
+  >
+    Save All
+  </button>
+      <button class="btn btn-danger" type="submit" name="delete" value="delete">Delete delete This List</button>
+</div>
+</form>
+{% else %}
+<div class="col-12">
+    <h1>{{to_do_list.name}}<br>User: {{to_do_list.user}}</h1>
+    <ul style="list-style:none;">
+    <div style="width:100%;" class="row">
+
+                {% for item in to_do_list.item.all %}
+                    <div style="margin:10px 0;" class="col-sm-12 col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <li>
+                                    <h5>Item: {{item.text}}</h5>
+                                    <h5>Stats: {% if item.completion == True %}
+                                    <strong style="color:green;">Done</strong>
+                                        {% else %}
+                                        <strong style="color:red;">Not Yet</strong>
+                                        {% endif %}
+                                    </h5>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+        </div>
+         </ul>
+</div>
+{% endif %}
+{% endblock content %}

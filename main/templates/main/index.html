@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %} {% block content %} {% for List in ToDoList %}
+<div class="card">
+  <div class="card-body">
+    <h1>
+      <a href="/to_do_lists/{{ List.id }}">{{List.name}}</a>
+    </h1>
+    <ul style="list-style: none">
+      {% for item in List.item.all %}
+      <li style="padding-bottom: 1rem">
+        <h5>Item: {{ item.text }}</h5>
+        <h6>
+          Status: {% if item.completion == True %}
+          <strong style="color: rgb(8, 224, 19)">Done</strong> {% else %}
+          <strong style="color: rgba(214, 7, 7, 0.7)">Not Yet</strong>
+          {%endif %}
+        </h6>
+      </li>
+
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<hr />
+{% endfor %} {% endblock content %}
